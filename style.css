@@ -1,0 +1,214 @@
+/* =========================
+   Theme & Base (mobile-first)
+   ========================= */
+:root{
+  --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  /* Brand colors (from your logo) */
+  --brand:   #2E8B77; /* teal */
+  --brand-2: #A020F0; /* purple */
+  --brand-3: #CC6600; /* orange-brown */
+  --brand-4: #1CA9E6; /* sky blue */
+
+  /* Neutrals */
+  --bg: #ffffff;
+  --text: #2B2B2B;
+  --muted:#565656;
+  --card:#ffffff;
+  --border:#e5e7eb;
+
+  --radius: 14px;
+  --shadow: 0 10px 30px rgb(0 0 0 / 0.08);
+  --container: 1100px;
+  --gap: 1.25rem;
+
+  /* Fluid type scale */
+  --step-0: clamp(0.95rem, 0.16vw + 0.92rem, 1.05rem);
+  --step-1: clamp(1.20rem, 0.60vw + 1.02rem, 1.50rem);
+  --step-2: clamp(1.55rem, 1.20vw + 1.20rem, 2.10rem);
+  --step-3: clamp(2.00rem, 1.80vw + 1.40rem, 2.80rem);
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b1020;
+    --text:#e5e7eb;
+    --muted:#a1a1aa;
+    --card:#10162b;
+    --border:#1f2937;
+    --shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+  }
+}
+
+*{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin:0; font-family: var(--font);
+  background: var(--bg); color: var(--text);
+  line-height: 1.6; font-size: var(--step-0);
+}
+
+.container{ width: min(100% - 2rem, var(--container)); margin-inline:auto; }
+.section{ padding: 3rem 0; }
+h1,h2,h3{ line-height:1.2; margin:0 0 .6rem; }
+h1{ font-size: var(--step-3); }
+h2{ font-size: var(--step-2); }
+h3{ font-size: var(--step-1); }
+p{ margin:0 0 1rem; color: var(--muted); }
+
+img{ max-width:100%; height:auto; }
+a{ color: inherit; }
+
+/* =========================
+   Header & Navigation
+   ========================= */
+.site-header{
+  position: sticky; top:0; z-index:10;
+  backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  border-bottom:1px solid var(--border);
+}
+.header-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:1rem; padding:.8rem 0;
+}
+.brand{ display:flex; align-items:center; gap:.6rem; text-decoration:none; font-weight:700; color:var(--brand); }
+.logo{ height:36px; width:auto; }
+
+.nav{
+  display:flex; align-items:center; gap:.5rem;
+}
+.nav a{
+  text-decoration:none; padding:.6rem .8rem; border-radius:10px;
+}
+.nav a:hover{
+  background: color-mix(in srgb, var(--border) 70%, transparent);
+}
+
+/* Mobile nav (no JS) */
+.nav-toggle{ display:none; }
+.hamburger{
+  width:44px; height:44px; display:grid; place-items:center;
+  border-radius:10px; border:1px solid var(--border);
+  cursor:pointer; margin-left:auto;
+}
+.hamburger span{
+  display:block; width:20px; height:2px; background:var(--text);
+  margin:3px 0; transition: transform .2s ease, opacity .2s ease;
+}
+
+/* Initially hide nav on small screens */
+@media (max-width: 699px){
+  .nav{ display:none; }
+  .hamburger{ display:grid; }
+  .nav-toggle:checked ~ .nav{ 
+    display:flex; position:absolute; right:1rem; top:64px; 
+    flex-direction:column; gap:.2rem;
+    background: var(--card); border:1px solid var(--border);
+    box-shadow: var(--shadow); border-radius:12px; padding:.4rem;
+  }
+}
+
+/* Turn off hamburger on tablets/desktops */
+@media (min-width: 700px){
+  .hamburger{ display:none; }
+  .nav{ display:flex; gap:.8rem; }
+}
+
+/* =========================
+   Hero
+   ========================= */
+.hero{
+  border-bottom:1px solid var(--border);
+  background:
+    radial-gradient(800px 300px at -10% -20%, color-mix(in srgb, var(--brand) 16%, transparent), transparent),
+    radial-gradient(800px 300px at 110% 120%, color-mix(in srgb, var(--brand-4) 20%, transparent), transparent);
+}
+.hero__inner{
+  display:grid; gap: var(--gap);
+  grid-template-columns: 1fr;
+  padding: 3rem 0;
+}
+.hero__content p{ margin-bottom:1.4rem; }
+
+.hero__art{
+  height: 220px; border:1px solid var(--border); border-radius: var(--radius);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 14%, var(--card)), var(--card));
+  position: relative; overflow:hidden; box-shadow: var(--shadow);
+}
+.blob{ position:absolute; filter: blur(26px); opacity:.65; mix-blend-mode:screen; }
+.b1{ width:200px; height:200px; background:var(--brand-2); top:10%; left:8%; border-radius:42% 58% 60% 40%/40% 40% 60% 60%; }
+.b2{ width:240px; height:240px; background:var(--brand-4); bottom:-12%; right:-8%; border-radius:50%; }
+
+/* Tablet: split hero */
+@media (min-width: 700px){
+  .hero__inner{ grid-template-columns: 1.1fr .9fr; align-items:center; }
+  .hero__art{ height: clamp(260px, 36vw, 420px); }
+}
+
+/* =========================
+   Buttons
+   ========================= */
+.btn{
+  display:inline-block; padding:.9rem 1.1rem; border-radius:12px;
+  text-decoration:none; font-weight:700; color:#fff;
+  background: linear-gradient(120deg, var(--brand), var(--brand-2));
+  border:1px solid color-mix(in srgb, var(--brand) 40%, var(--brand-2) 40%);
+  box-shadow: var(--shadow);
+  transition: filter .15s ease, transform .06s ease;
+}
+.btn:hover{ filter:brightness(1.06); transform: translateY(-1px); }
+.btn--sm{ padding:.6rem .8rem; font-weight:600; }
+.btn--accent{
+  background: linear-gradient(120deg, var(--brand-3), var(--brand-4));
+  border-color: color-mix(in srgb, var(--brand-3) 40%, var(--brand-4) 40%);
+}
+.hero__actions{ display:flex; gap:.8rem; flex-wrap:wrap; }
+
+/* =========================
+   Cards / Grid
+   ========================= */
+.cards{
+  display:grid; gap: var(--gap);
+  grid-template-columns: 1fr; /* phones */
+}
+.card{
+  background: var(--card); border:1px solid var(--border);
+  border-radius: var(--radius); padding:1.25rem; box-shadow: var(--shadow);
+  transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 42px rgb(2 6 23 / 0.14);
+  border-color: color-mix(in srgb, var(--brand-4) 30%, var(--border));
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 700px){
+  .cards{ grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Desktop: 3 columns */
+@media (min-width: 1000px){
+  .cards{ grid-template-columns: repeat(3, 1fr); }
+}
+
+/* =========================
+   Footer
+   ========================= */
+.site-footer{
+  border-top:1px solid var(--border);
+  padding: 1.2rem 0 2rem; color: var(--muted);
+}
+
+/* =========================
+   Accessibility niceties
+   ========================= */
+:focus-visible{
+  outline: 3px solid color-mix(in srgb, var(--brand) 45%, var(--brand-2));
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; scroll-behavior:auto; }
+}
